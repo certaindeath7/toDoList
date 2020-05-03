@@ -4,8 +4,8 @@
   "name": "ToDoApp",
   "short_name": "ToDoApp",
   "version": "com.example.toDoApp",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "description": "Simple To Do list App made with cordova",
+  "author": "Student ID: 6911",
   "icons": [],
   "start_url": "index.html"
 }

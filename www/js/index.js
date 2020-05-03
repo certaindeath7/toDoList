@@ -1,16 +1,23 @@
 
 var app = {
     // Application Constructor
-    initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    initialize: function () {
+
+        // DeviceReady method
+        document.addEventListener('deviceready', this.loadToDoList.bind(this), false);
+
+        //when user moves to other app
+        document.addEventListener('pause', this.loadToDoList.bind(this), false);
+
+        // when user reopens the app method
+        document.addEventListener('resume', this.loadToDoList.bind(this), false);
+
     },
 
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
+
+    loadToDoList: function () {
+
+
     },
 
 

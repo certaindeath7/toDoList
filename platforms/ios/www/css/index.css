@@ -37,6 +37,10 @@ body {
     width:100%;
 }
 
+input[type=checkbox]:checked + label.strikethrough{
+    text-decoration: line-through;
+  }
+
 /* Portrait layout (default) */
 .app {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
@@ -105,3 +109,4 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
