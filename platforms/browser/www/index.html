@@ -3,15 +3,19 @@
 
 <head>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
-
+    <meta charset="UTF-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.5.css">
+
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -27,53 +31,34 @@
             <h1>Todo List</h1>
         </div><!-- /header -->
 
-        <div role="main">
-        </div><!-- /content -->
-        <form>
-                <fieldset data-role="controlgroup">
+        <div role="main" class="main">
+            <!-- fetching list of tasks-->
+            <ul id="taskList">
 
-                        <input type="checkbox" name="task1" id="task1">
-                        <label for="task1">Task 1</label>
-                        <input type="checkbox" name="task2" id="task2">
-                        <label for="task2">Task 2</label>
-                        <input type="checkbox" name="task3" id="task3">
-                        <label for="task3">Task 3</label>
-                    </fieldset>
-        </form>
-        <div data-role="controlgroup" data-type="horizontal" data-mini="true">
-            <a href="#" data-role="button" data-icon="plus" data-theme="b">Add</a>
-            <a href="#" data-role="button" data-icon="grid" data-theme="b">More</a>
+            </ul>
+        </div><!-- /content -->
+
+        <!-- user input tasks-->
+         <div class="addTasks">
+            <input type="text" id="input" placeholder="Add a task">
+            <button id="addBtn">Add</button>
         </div>
+
+        <!-- added buttons and done button-->
+        <button id="doneBtn">Done</button>
 
         <div data-role="footer">
             <h4>Page Footer</h4>
         </div><!-- /footer -->
     </div><!-- /page -->
 
-
-
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
 
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            $("input[type=checkbox]").click(function () {
-                alert(this.checked);
-            });
-
-
-        });
+    <script type="text/javascript" src="js/index.js">
 
     </script>
 
-
-    <style>
-        input[type=checkbox]:checked+label.strikethrough {
-            text-decoration: line-through;
-        }
-    </style>
 </body>
 
 </html>

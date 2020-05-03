@@ -37,9 +37,6 @@ body {
     width:100%;
 }
 
-input[type=checkbox]:checked + label.strikethrough{
-    text-decoration: line-through;
-  }
 
 /* Portrait layout (default) */
 .app {
