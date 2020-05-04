@@ -17,15 +17,12 @@ var app = {
         const deleteTask = document.getElementById("doneBtn");
         const addTask = document.getElementById("addBtn");
 
-        // assign icons classes as variables
-        const DONE = "glyphicon glyphicon-ok";
-        const UNDONE = "glyphicon glyphicon-remove";
-        const STRIKE_THROUGH = "lineThrough";
+        const STRIKE_THROUGH="strike";
 
         // create variables for Key-Value localstorage
         let USER_TASK, taskId;
 
-        // check if Key-Value table has items
+        // check if Key-Value in user-task table has items
         if (window.localStorage.getItem("USER_TASK")) {
 
             // convert text into javascript object
@@ -37,7 +34,7 @@ var app = {
             // present the list of tasks
             loadTasks(USER_TASK);
         } else {
-            USER_TASK =[];
+            USER_TASK = [];
             taskId = 0;
         }
 
@@ -45,61 +42,110 @@ var app = {
         // present the list of tasks
         function loadTasks(array) {
             //for each element in this array, add it to the task list
-            array.forEach(function(tasks){
+            array.forEach(function (tasks) {
                 addTasks(tasks.label, tasks.id, tasks.completed, tasks.remove);
             });
         }
 
+
         //add tasks to the list
         function addTasks(label, id, completed, remove) {
 
-            if(remove){ return; }
-
-            const COMPLETED = completed ? DONE : UNDONE;
-            const STRIKE = completed ? STRIKE : "";
+            if (remove) { return; }
 
             // if a task is completed, pass in the icon as in javascript object
 
-            const tasks = `<li class="tasks">
-                                    <i class= "${COMPLETED}" job="complete" id="${id}"></i>
-                                    <p class="text ${STRIKE}">${label}</p>
-                                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i>
-                              </li>`;
-            
+            const tasks = `<form>
+                                <label>
+                                    <input type="checkbox" value="${label}" id="${id}" name="${label}">${label}
+                                </label>
+                            </form>`;
+
             // insert tasks into "taskList" position
             taskList.insertAdjacentHTML("beforeend", tasks);
+           
         }
 
-        // remove the all tasks from the list
-        deleteTask.addEventListener("click", function(){
+      
 
-            window.localStorage.clear();
 
-        });
+        function removeTasks() {
+
+            elemination.parentNode.removeChild(elemination);
+            USER_TASK[elemination.id].remove = true;
+        }
+
 
         // add eventlistner for inputting a new task by clicking "return" or "enter key"
-        addTask.addEventListener("click", function(){
+        addTask.addEventListener("click", function () {
+
+
+            //check if the list is empty
+            if (taskInput.value) {
+                addTasks(taskInput.value, taskId, false, false);
+
+                //JSON format, add items to the array
+                USER_TASK.push({
+                    label: taskInput.value,
+                    id: taskId,
+                    completed: false,
+                    remove: false
+                });
+
+                // insert data into the local storage. 
+                window.localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK)); //convert a javascript value to JSON
+
+                taskId++;
                 
+            }
+            taskInput.value = "";
 
-                //check if the list is empty
-                if(taskInput.value){
-                    addTasks(taskInput.value, taskId, false, false);
+            $("input[type=checkbox").click(function () {
 
-                    //JSON format
-                    USER_TASK.push({
-                        label : taskInput.value,
-                        id: taskId,
-                        completed: false,
-                        remove: false
-                    });
-
-                    // insert data into the local storage. 
-                    window.localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK)); //convert a javascript value to JSON
-
-                    taskId++;
+                //var ele = document.getElementById(taskId);
+                if (this.checked) {
+                    $(this).parent().parent().css("text-decoration","line-through");
+                }else{
+                    $(this).parent().parent().css("text-decoration","none");
                 }
-                taskInput.value = "";
+           
+                window.localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK));
+            });
         });
+
+
+
+
+        // //delete a task funciton
+        // function removeTasks(task){
+        //     // get the parent <div> tag to delete one of the <ul> tag
+        //     task.parentNode.parentNode.removeChild(task.parentNode);
+
+        //     USER_TASK[task.taskId].remove = true;
+        // }
+
+        // // handle "complete, delete" tasks for each item in the list
+
+        // taskList.addEventListener("click", function(event){
+
+        //     // get hold of the chosen task
+        //     const task = event.target;
+
+        //     //get hold of the function complete or remove
+        //     const taskFunction = task.attributes.job.value;
+
+        //     if(taskFunction == "completed"){
+        //         completeTask(task);
+        //     }
+        //     else if(taskFunction == "remove"){
+        //         removeTasks(task);
+        //     }
+
+
+
+
+
+
 
     },
 
