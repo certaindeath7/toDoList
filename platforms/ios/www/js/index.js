@@ -105,8 +105,10 @@ var app = {
         });
 
 
-
+        // remove a ticked checkbox
         function removeTasks() {
+            // check if the checkbox has been ticked. 
+            //if yes, excecute the following commands for each of the ticked checkbox
             $('input[type="checkbox"]:checked').each(function () {
                 $(this).closest('label').remove();
                 window.localStorage.removeItem('checked');
@@ -116,9 +118,9 @@ var app = {
 
         }
 
+        //done button event listener
         deleteTask.addEventListener("click", function () {
             removeTasks();
-
         });
 
 

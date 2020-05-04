@@ -9,6 +9,12 @@
   "installed_plugins": {
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.example.toDoApp"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.example.toDoApp"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "com.example.toDoApp"
     }
   },
   "dependent_plugins": {}
