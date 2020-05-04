@@ -17,7 +17,7 @@ var app = {
         const deleteTask = document.getElementById("doneBtn");
         const addTask = document.getElementById("addBtn");
 
-        const STRIKE_THROUGH="strike";
+        const STRIKE_THROUGH = "strike";
 
         // create variables for Key-Value localstorage
         let USER_TASK, taskId;
@@ -34,6 +34,7 @@ var app = {
             // present the list of tasks
             loadTasks(USER_TASK);
         } else {
+
             USER_TASK = [];
             taskId = 0;
         }
@@ -46,7 +47,6 @@ var app = {
                 addTasks(tasks.label, tasks.id, tasks.completed, tasks.remove);
             });
         }
-
 
         //add tasks to the list
         function addTasks(label, id, completed, remove) {
@@ -63,16 +63,7 @@ var app = {
 
             // insert tasks into "taskList" position
             taskList.insertAdjacentHTML("beforeend", tasks);
-           
-        }
 
-      
-
-
-        function removeTasks() {
-
-            elemination.parentNode.removeChild(elemination);
-            USER_TASK[elemination.id].remove = true;
         }
 
 
@@ -96,51 +87,39 @@ var app = {
                 window.localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK)); //convert a javascript value to JSON
 
                 taskId++;
-                
+
             }
             taskInput.value = "";
 
             $("input[type=checkbox").click(function () {
 
-                //var ele = document.getElementById(taskId);
+                //each of the task has different id
                 if (this.checked) {
-                    $(this).parent().parent().css("text-decoration","line-through");
-                }else{
-                    $(this).parent().parent().css("text-decoration","none");
+                    $(this).parent().parent().css("text-decoration", "line-through");
+
+                } else {
+                    $(this).parent().parent().css("text-decoration", "none");
                 }
-           
-                window.localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK));
+
             });
         });
 
 
 
+        function removeTasks() {
+            $('input[type="checkbox"]:checked').each(function () {
+                $(this).closest('label').remove();
+                window.localStorage.removeItem('checked');
+                localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK));
+            });
 
-        // //delete a task funciton
-        // function removeTasks(task){
-        //     // get the parent <div> tag to delete one of the <ul> tag
-        //     task.parentNode.parentNode.removeChild(task.parentNode);
 
-        //     USER_TASK[task.taskId].remove = true;
-        // }
+        }
 
-        // // handle "complete, delete" tasks for each item in the list
+        deleteTask.addEventListener("click", function () {
+            removeTasks();
 
-        // taskList.addEventListener("click", function(event){
-
-        //     // get hold of the chosen task
-        //     const task = event.target;
-
-        //     //get hold of the function complete or remove
-        //     const taskFunction = task.attributes.job.value;
-
-        //     if(taskFunction == "completed"){
-        //         completeTask(task);
-        //     }
-        //     else if(taskFunction == "remove"){
-        //         removeTasks(task);
-        //     }
-
+        });
 
 
 

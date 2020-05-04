@@ -13,92 +13,118 @@ var app = {
 
         //getting elements from html file
         const taskList = document.getElementById("taskList");
-        const taskInput = document.getElementById("taskInput");
+        const taskInput = document.getElementById("input");
         const deleteTask = document.getElementById("doneBtn");
-    
+        const addTask = document.getElementById("addBtn");
 
-        // assign icons classes as variables
-        const DONE = "glyphicon glyphicon-ok";
-        const UNDONE = "glyphicon glyphicon-remove";
-        const STRIKE_THROUGH = "lineThrough";
+        const STRIKE_THROUGH = "strike";
 
         // create variables for Key-Value localstorage
-        let USERS_TASK, taskId;
+        let USER_TASK, taskId;
 
-        // check if Key-Value table has items
+        // check if Key-Value in user-task table has items
         if (window.localStorage.getItem("USER_TASK")) {
 
             // convert text into javascript object
-            USERS_TASK = JSON.parse(window.localStorage.getItem("USER_TASK"));
+            USER_TASK = JSON.parse(window.localStorage.getItem("USER_TASK"));
 
             // set the id for each task
-            id = USERS_TASK.length;
+            id = USER_TASK.length;
 
             // present the list of tasks
-            loadTasks(USERS_TASK);
+            loadTasks(USER_TASK);
+        } else {
+
+            USER_TASK = [];
+            taskId = 0;
         }
+
+
         // present the list of tasks
         function loadTasks(array) {
             //for each element in this array, add it to the task list
-            array.forEach(addTasks(label, id, completed, remove));
+            array.forEach(function (tasks) {
+                addTasks(tasks.label, tasks.id, tasks.completed, tasks.remove);
+            });
         }
 
         //add tasks to the list
         function addTasks(label, id, completed, remove) {
 
-            const COMPLETED = completed;
-            const STRIKE = completed;
+            if (remove) { return; }
 
             // if a task is completed, pass in the icon as in javascript object
-            if (completed) { COMPLETED = DONE }
-            else { UNDONE }
 
-            // if a task is completed, strike through the text
-            if (completed) { STRIKE = STRIKE_THROUGH }
-            else { "" }
+            const tasks = `<form>
+                                <label>
+                                    <input type="checkbox" value="${label}" id="${id}" name="${label}">${label}
+                                </label>
+                            </form>`;
 
-            const tasks = `<li class="taskList">
-                                    <i class= "${COMPLETED}" job="complete" id="${id}"></i>
-                                    <p class="text ${STRIKE}">${toDo}</p>
-                                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i>
-                              </li>`;
-            
             // insert tasks into "taskList" position
             taskList.insertAdjacentHTML("beforeend", tasks);
+
         }
 
-        // remove the all tasks from the list
-        deleteTask.addEventListener("click", function(){
-
-            window.localStorage.clear();
-            window.localStorage.remove();
-        });
 
         // add eventlistner for inputting a new task by clicking "return" or "enter key"
-        document.addEventListener("keyup", function(){
-                if(event.keycode == 13){
-                const toDoTask = taskInput.value;
+        addTask.addEventListener("click", function () {
 
-                //check if the list is empty
-                if(toDoTask){
-                    addTasks(toDoTask, taskId, null, null);
 
-                    //JSON format
-                    USERS_TASK.push({
-                        label : toDoTask,
-                        id: taskId,
-                        completed: null,
-                        remove: null
-                    });
+            //check if the list is empty
+            if (taskInput.value) {
+                addTasks(taskInput.value, taskId, false, false);
 
-                    // insert data into the local storage. 
-                    window.localStorage.setItem("USER_TASK", JSON.stringify(USERS_TASK)); //convert a javascript value to JSON
+                //JSON format, add items to the array
+                USER_TASK.push({
+                    label: taskInput.value,
+                    id: taskId,
+                    completed: false,
+                    remove: false
+                });
 
-                    taskId++;
+                // insert data into the local storage. 
+                window.localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK)); //convert a javascript value to JSON
+
+                taskId++;
+
+            }
+            taskInput.value = "";
+
+            $("input[type=checkbox").click(function () {
+
+                //each of the task has different id
+                if (this.checked) {
+                    $(this).parent().parent().css("text-decoration", "line-through");
+
+                } else {
+                    $(this).parent().parent().css("text-decoration", "none");
                 }
-                askInput.value = "";
-                }
+
+            });
         });
+
+
+
+        function removeTasks() {
+            $('input[type="checkbox"]:checked').each(function () {
+                $(this).closest('label').remove();
+                window.localStorage.removeItem('checked');
+                localStorage.setItem("USER_TASK", JSON.stringify(USER_TASK));
+            });
+
+
+        }
+
+        deleteTask.addEventListener("click", function () {
+            removeTasks();
+
+        });
+
+
+
+
+
 
     },
 
